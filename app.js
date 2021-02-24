@@ -13,9 +13,6 @@ const leaderRouter = require('./routes/leaderRouter');
 
 const mongoose = require('mongoose');
 
-// Mongoose models
-const Dishes = require('./models/dishes');
-
 // Mongoose connection
 const url = 'mongodb://localhost:27017/confusion';
 const connect = mongoose.connect(url);
