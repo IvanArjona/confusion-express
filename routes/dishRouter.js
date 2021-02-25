@@ -216,7 +216,7 @@ dishRouter.route('/:dishId/comments/:commentId')
             .then((dish) => {
                 if (dish != null && dish.comments.id(req.params.commentId) != null) {
                     const comment = dish.comments.id(req.params.commentId)
-                    if (req.user._id.equals(comment.author)) {
+                    if (req.user._id.equals(comment.author) || req.user.admin) {
                         comment.remove();
                         dish.save()
                             .then((dish) => {
