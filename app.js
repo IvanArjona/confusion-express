@@ -7,6 +7,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const authenticate = require('./authenticate');
+const config = require('./config');
 
 // Routes
 const indexRouter = require('./routes/index');
@@ -18,8 +19,7 @@ const leaderRouter = require('./routes/leaderRouter');
 const mongoose = require('mongoose');
 
 // Mongoose connection
-const url = 'mongodb://localhost:27017/confusion';
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(config.mongoUrl);
 
 connect.then((db) => {
   console.log('Connected correctly to the server');
@@ -52,19 +52,6 @@ app.use(passport.session());
 // Routes auth not required
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-// Authentication
-function auth(req, res, next) {
-  if (!req.user) {
-    var err = new Error('You are not authenticated!');
-    err.status = 403;
-    return next(err);
-  }
-  else {
-    next();
-  }
-}
-app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
